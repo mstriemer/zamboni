@@ -28,6 +28,7 @@ import amo
 import amo.models
 from access.models import Group, GroupUser
 from amo.urlresolvers import reverse
+from mkt.regions import REGIONS_DICT
 from translations.fields import PurifiedField, save_signal
 from translations.query import order_by_translation
 
@@ -135,8 +136,9 @@ class UserProfile(amo.models.OnChangeMixin, amo.models.ModelBase):
                                          editable=False, db_index=True)
     user = models.ForeignKey(DjangoUser, null=True, editable=False, blank=True)
     is_verified = models.BooleanField(default=True)
-    region = models.CharField(max_length=11, null=True, blank=True,
-                              editable=False)
+    _region_slug = models.CharField(max_length=11, null=True, blank=True,
+                                    editable=False, db_column='region')
+    region_id = models.IntegerField(null=True, blank=True, editable=False)
     lang = models.CharField(max_length=5, null=True, blank=True,
                             editable=False)
 
@@ -275,6 +277,11 @@ class UserProfile(amo.models.OnChangeMixin, amo.models.ModelBase):
         if not self.last_login_attempt:
             self.update(last_login_attempt=datetime.now())
         return self.last_login_attempt
+
+    @property
+    def region(self):
+        """The user's region object."""
+        return REGIONS_DICT.get(self._region_slug)
 
     @amo.cached_property
     def reviews(self):

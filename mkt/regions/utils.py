@@ -13,6 +13,9 @@ def parse_region(region):
         # Look up the region by ID.
         return regions.REGIONS_CHOICES_ID_DICT[int(region)]
     else:
+        if region == 'worldwide':
+            region = 'restofworld'
+
         # Look up the region by slug.
         region_by_slug = regions.REGIONS_DICT.get(region)
         if region_by_slug is not None:
