@@ -1,0 +1,117 @@
+@font-face {
+    font-family: "Open Sans Light";
+    font-style: normal;
+    font-weight: normal;
+    src: url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"), url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.woff") format("woff"), url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.ttf") format("truetype"), url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.svg#OpenSansLight") format("svg");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: bold;
+    src: url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Semibold-webfont.eot?#iefix") format("embedded-opentype"), url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Semibold-webfont.woff") format("woff"), url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Semibold-webfont.ttf") format("truetype"), url("//mozorg.cdn.mozilla.net/media/fonts/OpenSans-Semibold-webfont.svg#OpenSansSemibold") format("svg");
+}
+
+@page-width: 960px;
+@blue: #0095DD;
+@dark-blue: darken(@blue, 20%);
+@promo-width: @page-width - 200px;
+@promo-box-gutter: 20px;
+@promo-box-width: (@promo-width - @promo-box-gutter * 2) / 3;
+@promo-box-height: 340px;
+@open-sans-light: 'Open Sans Light','sans-serif';
+@open-sans: 'Open Sans','sans-serif';
+
+.clear-float {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+.container {
+    width: @page-width;
+    margin: 0 auto;
+}
+
+.promo {
+    background-color: @dark-blue;
+}
+
+.promo-boxes, .promo-box-single {
+  width: @promo-width;
+  margin: 0 auto;
+  padding: 0 0 40px;
+}
+
+.promo-box-single {
+    text-align: center;
+
+    .clear-float;
+
+    @img-width: 200px;
+    @text-width: @promo-width - @img-width;
+
+    color: #fff;
+    font-family: @open-sans-light;
+
+    img, .promo-text {
+        float: left;
+    }
+
+    img {
+        width: @img-width;
+    }
+
+    .promo-text {
+        text-align: center;
+        width: @text-width;
+    }
+
+    .promo-heading {
+        font-size: 60px;
+    }
+
+    .promo-description {
+        font-size: 25px;
+    }
+}
+
+.promo-boxes {
+    text-align: center;
+
+    .clear-float;
+
+    .promo-box {
+        box-sizing: border-box;
+        background-color: #fff;
+        height: @promo-box-height;
+        border-radius: 5px;
+        width: @promo-box-width;
+        margin: 0 @promo-box-gutter 0 0;
+        padding: 20px 10px;
+        float: left;
+        @shadow: lighten(@blue, 25%);
+        box-shadow: inset 0 -2px 9px 3px rgba(red(@shadow), green(@shadow), blue(@shadow), 0.3);
+    }
+
+    .promo-box:last-of-type {
+        margin-right: 0;
+    }
+
+    .promo-box-heading {
+        color: @blue;
+        font-size: 25px;
+        font-family: @open-sans-light;
+    }
+
+    .promo-box-text {
+        font-family: @open-sans;
+        font-size: 17px;
+    }
+
+    img {
+        width: 200px;
+    }
+}
