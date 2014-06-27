@@ -250,6 +250,12 @@
                 this.trigger('uiSaveRequested');
             });
 
+            this.on(this.name, 'keyup', function (e) {
+                if (e.key === 'Enter' || e.keyCode == 13) {
+                    this.trigger('uiSaveRequested');
+                }
+            });
+
             this.on(this.editButton, 'click', function (e) {
                 this.trigger('uiStartInlineEdit');
             });
