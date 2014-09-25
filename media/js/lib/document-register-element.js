@@ -1,0 +1,1 @@
+../../../bower_components/document-register-element/build/document-register-element.max.js
