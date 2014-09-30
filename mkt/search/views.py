@@ -298,7 +298,3 @@ class RocketbarView(SearchView):
         # anonymous, so we're fine.
         return HttpResponse(json.dumps(serializer.data),
                             content_type='application/x-rocketbar+json')
-
-
-class RocketbarViewV2(RocketbarView):
-    serializer_class = RocketbarESAppSerializerV2

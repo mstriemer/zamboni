@@ -651,3 +651,5 @@ class RocketbarESAppSerializerV2(AppSerializer, RocketbarESAppSerializer):
         del data['icon']
         data['icons'] = self.get_icons(self.fake_app)
         return data
+
+RocketbarESAppSerializer.V2 = RocketbarESAppSerializerV2
