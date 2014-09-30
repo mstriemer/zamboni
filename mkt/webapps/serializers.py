@@ -56,8 +56,13 @@ class AppFeaturesSerializer(serializers.ModelSerializer):
 class RegionSerializer(serializers.Serializer):
     name = serializers.CharField()
     slug = serializers.CharField()
-    mcc = serializers.CharField()
     adolescent = serializers.BooleanField()
+
+
+class RegionSerializerV1(RegionSerializer):
+    mcc = serializers.CharField()
+
+RegionSerializer.V1 = RegionSerializerV1
 
 
 class AppSerializer(serializers.ModelSerializer):
@@ -365,6 +370,12 @@ class AppSerializer(serializers.ModelSerializer):
         for f, v in extras:
             f(instance, v)
         return instance
+
+
+class AppSerializerV1(AppSerializer):
+    regions = RegionSerializer.V1(read_only=True, source='get_regions')
+
+AppSerializer.V1 = AppSerializerV1
 
 
 class ESAppSerializer(BaseESSerializer, AppSerializer):

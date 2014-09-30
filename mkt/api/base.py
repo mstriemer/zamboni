@@ -165,6 +165,24 @@ class MarketplaceView(object):
         """
         return get_region_from_request(request)
 
+    def get_serializer_class(self):
+        """
+        Return a serializer for the requested API version.
+
+        Versioned serializers are registered on the default serializer with
+        their version number:
+
+            class MySerializer(serializers.Serializer):
+                # Insert awesome code.
+            class MySerializerV1(serializers.Serializer):
+                # Insert old code.
+            MySerializer.V1 = MySerializerV1
+        """
+        api_version = 'V{v_int}'.format(v_int=self.request.API_VERSION)
+        serializer_class = super(MarketplaceView, self).get_serializer_class()
+        # Use the versioned serializer if it exists, other leave it as is.
+        return getattr(serializer_class, api_version, serializer_class)
+
 
 class MultiSerializerViewSetMixin(object):
     """
