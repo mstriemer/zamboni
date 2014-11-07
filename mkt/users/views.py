@@ -200,6 +200,7 @@ def logout(request):
         log.debug(u"User (%s) logged out" % user)
 
     auth.logout(request)
+    request.session['has_logged_in'] = True
 
     if 'to' in request.GET:
         request = _clean_next_url(request)

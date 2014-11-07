@@ -71,7 +71,9 @@
 
 
               {% if not logged %}
-              <a href="#" class="browserid">{{ _('Sign In') }}</a>
+              {% set prefer_signin=prefer_signin() %}
+              <a href="#" class="browserid {% if not prefer_signin %}flat-button{% else %}split-right{% endif %} register">{{ _('Register') }}</a>
+              <a href="#" class="browserid {% if prefer_signin %}flat-button{% else %}split-left{% endif %}">{{ _('Sign In') }}</a>
               {% endif %}
             </div>
           {% endif %}
