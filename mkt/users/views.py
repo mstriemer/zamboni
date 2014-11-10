@@ -200,7 +200,6 @@ def logout(request):
         log.debug(u"User (%s) logged out" % user)
 
     auth.logout(request)
-    request.session['has_logged_in'] = True
 
     if 'to' in request.GET:
         request = _clean_next_url(request)
@@ -209,6 +208,8 @@ def logout(request):
     if not next:
         next = settings.LOGOUT_REDIRECT_URL
     response = http.HttpResponseRedirect(next)
+    # 31536000 == one year.
+    response.set_cookie('has_logged_in', '1', max_age=5 * 31536000)
     # Fire logged out signal.
     logged_out.send(None, request=request, response=response)
     return response

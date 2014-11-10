@@ -390,4 +390,4 @@ def strip_controls(s):
 @register.function
 @jinja2.contextfunction
 def prefer_signin(context):
-    return context['request'].session.get('has_logged_in', False)
+    return 'has_logged_in' in context['request'].COOKIES
