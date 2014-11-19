@@ -370,17 +370,23 @@
         color: $white;
         font-size: 13px;
         line-height: 20px;
-        margin: 5px 7px;
+        padding: 5px 7px;
+
+        &.flat-button {
+            margin: 0 7px;
+        }
     }
 
-    .split-right {
+    .split-right:after {
         border-right: 1px solid #000;
-        padding-right: 14px;
+        content: "";
+        margin-left: 14px;
     }
 
-    .split-left {
+    .split-left:before {
         border-left: 1px solid #000;
-        padding-left: 14px;
+        content: "";
+        margin-right: 14px;
     }
 }
 
