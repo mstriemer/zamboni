@@ -27,10 +27,11 @@ class RatingSerializer(serializers.ModelSerializer):
     is_author = serializers.SerializerMethodField('get_is_author')
     has_flagged = serializers.SerializerMethodField('get_has_flagged')
     version = SimpleVersionSerializer(read_only=True)
+    lang = serializers.SerializerMethodField('get_lang')
 
     class Meta:
         model = Review
-        fields = ('app', 'body', 'created', 'has_flagged', 'is_author',
+        fields = ('app', 'body', 'created', 'has_flagged', 'is_author', 'lang',
                   'modified', 'rating', 'report_spam', 'resource_uri', 'user',
                   'version')
 
@@ -58,6 +59,9 @@ class RatingSerializer(serializers.ModelSerializer):
     def get_has_flagged(self, obj):
         return (not self.get_is_author(obj) and
                 obj.reviewflag_set.filter(user=self.request.user).exists())
+
+    def get_lang(self, obj):
+        return obj.user.lang
 
     def validate(self, attrs):
         if not getattr(self, 'object'):

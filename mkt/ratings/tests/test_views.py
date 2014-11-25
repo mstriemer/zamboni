@@ -78,6 +78,7 @@ class TestRatingResource(RestOAuth, amo.tests.AMOPaths):
 
         eq_(data['info']['average'], self.app.average_rating)
         eq_(data['info']['slug'], self.app.app_slug)
+        eq_(data['info']['total_reviews'], 1)
         eq_(data['info']['current_version'], ver.version)
         eq_(data['user']['can_rate'], True)
         eq_(data['user']['has_rated'], True)
@@ -280,6 +281,42 @@ class TestRatingResource(RestOAuth, amo.tests.AMOPaths):
         data = json.loads(res.content)
         assert data['user']['can_rate']
         assert not data['user']['has_rated']
+
+    def test_no_lang_filter(self):
+        Review.objects.create(addon=self.app, user=self.user, body='yes')
+        other_user = UserProfile.objects.exclude(pk=self.user.pk)[0]
+        other_user.update(lang='pt-BR')
+        Review.objects.create(addon=self.app, user=other_user, body='yes')
+        res, data = self._get_url(self.list_url, app=self.app.app_slug,
+                                  client=self.anon, lang='pt-BR')
+        eq_(res.status_code, 200)
+        eq_(len(data['objects']), 2)
+        eq_(data['info']['total_reviews'], 2)
+
+    def test_lang_filter(self):
+        Review.objects.create(addon=self.app, user=self.user, body='yes')
+        other_user = UserProfile.objects.exclude(pk=self.user.pk)[0]
+        other_user.update(lang='pt-BR')
+        Review.objects.create(addon=self.app, user=other_user, body='yes')
+        res, data = self._get_url(self.list_url, app=self.app.app_slug,
+                                  client=self.anon, lang='pt-BR',
+                                  match_lang='1')
+        eq_(res.status_code, 200)
+        eq_(len(data['objects']), 1)
+        eq_(data['info']['total_reviews'], 2)
+        eq_(data['objects'][0]['lang'], 'pt-BR')
+
+    def test_lang_filter_inverse(self):
+        Review.objects.create(addon=self.app, user=self.user, body='yes')
+        other_user = UserProfile.objects.exclude(pk=self.user.pk)[0]
+        other_user.update(lang='pt-BR')
+        Review.objects.create(addon=self.app, user=other_user, body='yes')
+        res, data = self._get_url(self.list_url, app=self.app.app_slug,
+                                  client=self.anon, lang='pt-BR',
+                                  match_lang='0')
+        eq_(res.status_code, 200)
+        eq_(len(data['objects']), 2)
+        eq_(data['info']['total_reviews'], 2)
 
     def _create(self, data=None, anonymous=False, version=None):
         version = version or self.app.current_version

@@ -21,6 +21,11 @@ _`List`
 
     :query app: the ID or slug of the app whose ratings are to be returned.
     :query user: the ID of the user or `mine` whose ratings are to be returned.
+    :query lang: a language to filter ratings by if `match_lang` is set.
+    :query match_lang: a boolean to specify to match langauge or not. If unset
+                       all results are returned, if 1 only results matching
+                       `lang` are returned if 0 only results not matching
+                       `lang` are returned. All other values are ignored.
 
     The value `mine` can be used to filter ratings belonging to the currently
     logged in user.
@@ -41,7 +46,8 @@ _`List`
             },
             "info": {
                 "average": "3.4",
-                "slug": "marble-run"
+                "slug": "marble-run",
+                "total_reviews": 391
             },
             "objects": [
                 {
@@ -49,6 +55,7 @@ _`List`
                     "body": "This app is top notch. Aces in my book!",
                     "created": "2013-04-17T15:25:16",
                     "is_author": true,
+                    "lang": "en-US",
                     "modified": "2013-04-17T15:34:19",
                     "rating": 5,
                     "resource_uri": "/api/v2/apps/rating/19/",

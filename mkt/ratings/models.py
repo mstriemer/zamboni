@@ -80,6 +80,10 @@ class Review(ModelBase):
             return
         instance.refresh(update_denorm=True)
 
+    @property
+    def lang(self):
+        return self.user.lang
+
     def refresh(self, update_denorm=False):
         from . import tasks
 
