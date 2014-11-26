@@ -29,8 +29,9 @@ define('login', ['notification', 'storage'], function(notification, storage) {
         if (z.body.data('persona-url')) {
             startLogin();
         } else {
-            var action = $this.hasClass('register') ? 'signup' : 'signin';
-            startFxALogin({action: action});
+            startFxALogin({
+                action: $this.hasClass('register') ?  'signup' : 'signin',
+            });
         }
         e.preventDefault();
     }
