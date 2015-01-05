@@ -35,6 +35,8 @@ class Review(ModelBase):
     rating = models.PositiveSmallIntegerField(null=True)
     title = TranslatedField(require_locale=False)
     body = TranslatedField(require_locale=False)
+    lang = models.CharField(max_length=5, null=True, blank=True,
+                            editable=False)
     ip_address = models.CharField(max_length=255, default='0.0.0.0')
 
     editorreview = models.BooleanField(default=False)
@@ -79,10 +81,6 @@ class Review(ModelBase):
         if kwargs.get('raw'):
             return
         instance.refresh(update_denorm=True)
-
-    @property
-    def lang(self):
-        return self.user.lang
 
     def refresh(self, update_denorm=False):
         from . import tasks

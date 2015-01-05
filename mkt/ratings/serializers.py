@@ -61,7 +61,10 @@ class RatingSerializer(serializers.ModelSerializer):
                 obj.reviewflag_set.filter(user=self.request.user).exists())
 
     def get_lang(self, obj):
-        return obj.user.lang
+        if obj.pk is None:
+            return self.request.LANG
+        else:
+            return obj.lang
 
     def validate(self, attrs):
         if not getattr(self, 'object'):

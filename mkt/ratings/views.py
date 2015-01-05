@@ -79,7 +79,7 @@ class RatingViewSet(CORSMixin, MarketplaceView, ModelViewSet):
         if user:
             filters &= Q(user=self.get_user(user))
         elif lang and match_lang == '1':
-            filters &= Q(user__lang=lang)
+            filters &= Q(lang=lang)
 
         if filters:
             queryset = queryset.filter(filters)
